@@ -1,0 +1,27 @@
+MapContainer {
+  width: 100%;
+  height: 500px;
+}
+
+.locate-me-button {
+  background-image: url("../Images/mylocation.png");
+  background-size: cover;
+  width: 30px;
+  height: 30px;
+  display: block;
+  position: absolute;
+  align-items: baseline;
+  top: 150px;
+  left: 12px;
+}
+.fullscreen-icon {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABoAAAAaCAQAAAADQ4RFAAAAUklEQVR4AWOgGhgF/8HwPIrYeYgoIU0OKGIOxGm6jyJ2n5Cm8wwOQEUGKGIGQBEHoAwB0AA0FwEbSAgOBBwWmggHBOVBTjhyKU9GhBMslcAoAABPu2Hh6JIyeQAAAABJRU5ErkJggg==);
+}
+.leaflet-retina .fullscreen-icon {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAA0CAQAAABvcdNgAAAAnklEQVR4Ae2WVQEDMRAFn4RIi8OVtBIiIQ7KzO3dlN+8z4MJbEDGGPPXTA+SukQevTlKlCq6RFFSor7RXFR1qkehawTRo9uqIOaoPyTqQ0Wporh76GJdFg+zqbS4odm8s6nAkVQ1Tc+kqQqkano5pKpdFTVhTG8EwyKLwPLmF+xHbkH8psofEx918PFHOX85+YbrFn+B5K/Ef4wxxswAnU97CHDaZQMAAAAASUVORK5CYII=);
+  background-size: 26px 26px;
+}
+.locate-me-button:hover {
+  opacity: 0.8;
+  box-shadow: 1;
+}

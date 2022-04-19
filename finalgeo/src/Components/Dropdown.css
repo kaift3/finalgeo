@@ -1,0 +1,39 @@
+.dropdown {
+    width: 10rem;
+    position: absolute;
+    top: 75px;
+    right: 18rem;
+    list-style: none;
+    text-align: start;
+    height:30vh;
+    /* border: 0px;
+    padding: 0px;
+    margin: 0px; */
+  }
+  
+
+  .dropdown li {
+    background: rgb(0, 212, 212);
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: 600;
+    width: 10rem;
+    height: 10vh;
+  }
+  
+  .dropdown li a:hover {
+    background: rgb(0, 175, 175);
+    height: 10vh;
+  }
+  
+  .dropdown.clicked {
+    display: none;
+  }
+  
+/* .dropdown-item{
+    display: block;
+    width: 100%;
+    text-decoration: none;
+    color: red;
+    font-weight: 600;
+  } */
