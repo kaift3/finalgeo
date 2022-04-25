@@ -1,84 +1,95 @@
-import React from "react";
-import {
-  LayersControl,
-  MapContainer,
-  Marker,
-  Popup,
-  TileLayer,
-} from "react-leaflet";
+import { Button } from "@mui/material";
+import React, { useState } from "react";
+import Sidebar from "../Components/Sidebar";
+import tags from "../Data/List";
 
-import "leaflet-draw/dist/leaflet.draw.css";
-import "leaflet/dist/leaflet.css";
-import "leaflet-geosearch/assets/css/leaflet.css";
-import { EditControl } from "react-leaflet-draw";
-import { FeatureGroup } from "react-leaflet";
-import { FullscreenControl } from "react-leaflet-fullscreen";
-import { SearchControl, OpenStreetMapProvider } from "react-leaflet-geosearch";
+import "./GeoTag.css";
 
-const ShortestRoutes = () => {
-  const pos = [18.5204, 73.8567];
-  const GeoSearchControlElement = SearchControl;
-  const prov = OpenStreetMapProvider();
+const GeoTag = () => {
+  const [openLeft, setOpenLeft] = useState(false);
+  const [openRight, setOpenRight] = useState(false);
+
+  const toggleDrawerLeft = () => {
+    setOpenLeft(!openLeft);
+  };
+
+  const toggleDrawerRight = () => {
+    setOpenRight(!openRight);
+  };
+
   return (
-    <div className="container">
-      <MapContainer
-        className="mymap"
-        id="mymap"
-        style={{ width: "100%", height: "100vh" }}
-        center={pos}
-        zoom={15}
-        scrollWheelZoom={true}
-        doubleClickZoom={false}
-      >
-        <FeatureGroup>
-          <EditControl
-            // onCreated={_onCreated}
-            // onEdited={_onEdited}
-            // onDeleted={_onDeleted}
-            position="topright"
-            draw={{
-              rectangle: true,
-              polyline: false,
-              circle: false,
-              circlemarker: false,
-              marker: true,
+    <>
+      <Sidebar anchor={"left"} open={openLeft} toggleDrawer={toggleDrawerLeft}>
+        <div className="left-sidebar" style={{ backgroundColor: "#212121" }}>
+          <div
+            style={{
+              position: "fixed",
+              backgroundColor: "#212121",
+              boxSizing: "border-box",
+              width: "30vw",
             }}
-          ></EditControl>
-          {/* <Polygon
-            positions={testPoly}
-          /> */}
-        </FeatureGroup>
-        <FullscreenControl position="topleft" />
-        <GeoSearchControlElement
-          provider={prov}
-          showMarker={true}
-          showPopup={false}
-          maxMarkers={3}
-          retainZoomLevel={false}
-          animateZoom={true}
-          autoClose={false}
-          searchLabel={"Enter address, please"}
-          keepResult={true}
-          popupFormat={({ query, result }) => result.label}
-        />
-        <LayersControl position="bottomright">
-          <LayersControl.BaseLayer checked name="OpenStreetMap.Mapnik">
-            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          </LayersControl.BaseLayer>
-          <LayersControl.BaseLayer name="Test Layer">
-            <TileLayer url="https://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png" />
-            <LayersControl.Overlay name="Marker with popup">
-              <Marker>
-                <Popup>
-                  A pretty CSS3 popup. <br /> Easily customizable.
-                </Popup>
-              </Marker>
-            </LayersControl.Overlay>
-          </LayersControl.BaseLayer>
-          <LayersControl.Overlay name="Get My Location"></LayersControl.Overlay>
-        </LayersControl>
-      </MapContainer>
-    </div>
+          >
+            <h1
+              style={{
+                color: "white",
+                boxSizing: "border-box",
+              }}
+            >
+              All Tags
+            </h1>
+          </div>
+          <ul style={{ paddingTop: "10vh" }}>
+            {/* <li>
+              <div>
+                <h2>kaif home</h2>
+                <h5>kaift3</h5>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h2>anurag home</h2>
+                <h5>kaift3</h5>
+              </div>
+            </li>
+            <li>
+              <div>
+                <h2>samiran home</h2>
+                <h5>kaift3</h5>
+              </div>
+            </li> */}
+            {tags.map((e, index) => {
+              return (
+                <div
+                  key={e.name + "-" + index}
+                  style={{ backgroundColor: "#212121" }}
+                >
+                  <li>
+                    <div>
+                      <h2>{e.location}</h2>
+                      <h5>{e.name}</h5>
+                    </div>
+                  </li>
+                </div>
+              );
+            })}
+          </ul>
+        </div>
+      </Sidebar>
+
+      <Sidebar
+        anchor={"right"}
+        open={openRight}
+        toggleDrawer={toggleDrawerRight}
+      >
+        <div className="right-sidebar">
+          <h1 style={{ color: "white" }}>Info</h1>
+          <div className="tags-info"></div>
+        </div>
+      </Sidebar>
+
+      <Button onClick={toggleDrawerLeft}>Left</Button>
+      <Button onClick={toggleDrawerRight}>Right</Button>
+    </>
   );
 };
-export default ShortestRoutes;
+export default GeoTag;

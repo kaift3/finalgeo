@@ -1,16 +1,11 @@
-.gradient-custom {
-  /* fallback for old browsers */
-  background: #6a11cb;
+MapContainer {
+  width: 100%;
+  height: 500px;
+}
 
-  /* Chrome 10-25, Safari 5.1-6 */
-  background: -webkit-linear-gradient(
-    to right,
-    rgb(53, 40, 68),
-    rgba(37, 117, 252, 1) /*#2575fc*/
-  );
-
-  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  background: linear-gradient(to right, rgb(32, 12, 54), rgba(37, 117, 252, 1));
+.left-sidebar-button {
+  top: 35vh;
+  padding: 10px;
 }
 
 .right-sidebar h1 {
@@ -28,13 +23,29 @@
 .left-sidebar ul li div {
   /* background-color: yellowgreen; */
   background: linear-gradient(
-    to right,
+    to top,
     rgb(53, 40, 68),
     rgba(37, 117, 252, 1) /*#2575fc*/
   );
-  margin-left: 0px;
+
   margin: 10px;
+  margin-left: 0px;
+  margin-right: 20px;
   border-radius: 10px;
+}
+
+.left-sidebar-button {
+  top: 85vh;
+  padding: 10px;
+}
+
+.left-sidebar ul li div h2 {
+  padding-top: 5px;
+  padding-left: 10px;
+}
+.left-sidebar ul li div h5 {
+  padding-bottom: 5px;
+  padding-left: 10px;
 }
 
 .right-sidebar .tags-info {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   MapContainer,
   TileLayer,
@@ -22,6 +22,9 @@ import { useRef } from "react";
 import L, { icon, polygon, popup } from "leaflet";
 import Sidebar from "../Components/Sidebar";
 import { Button } from "@mui/material";
+
+import tags from "../Data/List";
+// import { Button } from "react-bootstrap";
 
 //L.Icon.Default.prototype._getIconUrl;
 
@@ -51,21 +54,22 @@ export default function GeoFence() {
   const [Polygons, setPolygons] = useState([]); //polygons contain all the coordinates of a polygon/fence
   const [Points, setPoints] = useState([]);
   const [Location, setLocation] = useState([]);
+  const [map, setMap] = useState();
 
   let INF = 10000;
 
-  //   useEffect(() => {
-  //     let latlngarray = [];
-  //     mapLayer.forEach((item) => {
-  //       item.latlngs.forEach((coords) => {
-  //         latlngarray.push([coords.lat, coords.lng]);
-  //       });
-  //       //setPolygons(item.latlngs);
-  //     });
-  //     console.log(latlngarray);
-  //     setPolygons(latlngarray);
-  //     //console.log(Polygons);
-  //   }, [mapLayer, setMapLayer]); //run everytime maplayer changes
+  useEffect(() => {
+    let latlngarray = [];
+    mapLayer.forEach((item) => {
+      item.latlngs.forEach((coords) => {
+        latlngarray.push([coords.lat, coords.lng]);
+      });
+      //setPolygons(item.latlngs);
+    });
+    console.log(latlngarray);
+    setPolygons(latlngarray);
+    //console.log(Polygons);
+  }, [mapLayer, setMapLayer]); //run everytime maplayer changes
 
   /////////
   const [position, setPosition] = useState(null);
@@ -98,6 +102,26 @@ export default function GeoFence() {
         <Popup>You are here</Popup>
       </Marker>
     );
+  }
+
+  function locateUser() {
+    console.log("locateUser called");
+    const mapp = mapp.locate().locationfound((e) => {
+      console.log("location found");
+      setPosition(e.latlng);
+      setLocation([e.latlng.lat, e.latlng.lng]); //console.log(e.latlng);
+      mapp.flyTo(e.latlng, mapp.getZoom());
+    });
+    return position === null ? null : (
+      <Marker position={position} icon={markerIcon}>
+        <Popup>You are here</Popup>
+      </Marker>
+    );
+  }
+
+  var myvar;
+  function LiveLocation() {
+    myvar = setInterval(locateUser, 1000);
   }
 
   //Geo Fencing
@@ -237,8 +261,6 @@ export default function GeoFence() {
   // console.log(ans);
 
   const _onCreated = (e) => {
-    console.log(e);
-
     const { layerType, layer } = e;
     if (layerType === "polygon" || layerType === "rectangle") {
       const { _leaflet_id } = layer;
@@ -247,6 +269,7 @@ export default function GeoFence() {
         { id: _leaflet_id, latlngs: layer.getLatLngs()[0] },
       ]);
     }
+    console.log(e);
     // if (layerType === "marker") {
     //   const { _leaflet_id } = layer;
     //   console.log("Marker Dropped");
@@ -295,6 +318,7 @@ export default function GeoFence() {
     Object.values(_layers).map((_leaflet_id) => {
       setMapLayer((layers) => layers.filter((l) => l.id !== _leaflet_id));
     });
+    setMapLayer(mapLayer);
     console.log("deleted");
   };
 
@@ -314,66 +338,142 @@ export default function GeoFence() {
       <MapContainer
         className="mymap"
         id="mymap"
-        style={{ width: "100%", height: "100vh" }}
+        style={{ width: "100%", height: "90vh" }}
         center={pos}
         zoom={15}
         scrollWheelZoom={true}
         doubleClickZoom={false}
+        // whenCreated={(map) => {
+        //   setMap((prevState) => ({
+        //     ...prevState,
+        //     map: map,
+        //   }));
+        // }}
       >
+        <LayersControl position="bottomright">
+          <LayersControl.BaseLayer name="OSM">
+            <TileLayer
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            />
+          </LayersControl.BaseLayer>
+          <LayersControl.BaseLayer checked name="MapTiler Street Map">
+            <TileLayer
+              attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
+              url="https://api.maptiler.com/maps/streets/{z}/{x}/{y}.png?key=ZwUohaY0M43TShPZZw1q"
+            />
+          </LayersControl.BaseLayer>
+          <LayersControl.BaseLayer name="Google Map">
+            <TileLayer
+              attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              url="http://mt0.google.com/vt/lyrs=y&hl=en&x={x}&y={y}&z={z}&s=Ga"
+            />
+          </LayersControl.BaseLayer>
+          <LayersControl.BaseLayer name="MapTiler Topography">
+            <TileLayer
+              attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
+              url="https://api.maptiler.com/maps/topo/{z}/{x}/{y}.png?key=ZwUohaY0M43TShPZZw1q"
+            />
+          </LayersControl.BaseLayer>
+          <LayersControl.BaseLayer name="MapTiler Hybrid">
+            <TileLayer
+              attribution='<a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>'
+              url="https://api.maptiler.com/maps/hybrid/{z}/{x}/{y}.jpg?key=ZwUohaY0M43TShPZZw1q"
+            />
+          </LayersControl.BaseLayer>
+        </LayersControl>
         <Sidebar
           anchor={"left"}
           open={openLeft}
           toggleDrawer={toggleDrawerLeft}
         >
-          <div>Sidebar</div>
+          <div className="left-sidebar" style={{ backgroundColor: "#212121" }}>
+            <div
+              style={{
+                position: "fixed",
+                backgroundColor: "#212121",
+                boxSizing: "border-box",
+                width: "30vw",
+              }}
+            >
+              <h1
+                style={{
+                  color: "white",
+                  boxSizing: "border-box",
+                }}
+              >
+                All Fences
+              </h1>
+            </div>
+            <ul style={{ paddingTop: "10vh" }}>
+              {tags.map((e, index) => {
+                return (
+                  <div
+                    key={e.name + "-" + index}
+                    style={{ backgroundColor: "#212121" }}
+                  >
+                    <li>
+                      <div>
+                        <h2>{e.location}</h2>
+                        <h5>{e.name}</h5>
+                      </div>
+                    </li>
+                  </div>
+                );
+              })}
+            </ul>
+          </div>
         </Sidebar>
-        <Button style={{ zIndex: "1000" }} onClick={toggleDrawerLeft}>
-          Left
+        <Button
+          variant="contained"
+          className="left-sidebar-button"
+          style={{
+            zIndex: "1000",
+            backgroundColor: "#212121",
+            borderRadius: "0px 15px 15px 0px",
+          }}
+          onClick={toggleDrawerLeft}
+        >
+          All Fences
         </Button>
+
         <FeatureGroup>
           <EditControl
             onCreated={_onCreated}
             onEdited={_onEdited}
             onDeleted={_onDeleted}
             position="topright"
-            draw={{
-              rectangle: true,
-              polyline: false,
-              circle: false,
-              circlemarker: false,
-              marker: true,
-            }}
+            // draw={{
+            //   rectangle: true,
+            //   polyline: false,
+            //   circle: false,
+            //   circlemarker: false,
+            //   marker: true,
+            // }}
           ></EditControl>
           {/* <Polygon
             positions={testPoly}
           /> */}
         </FeatureGroup>
-        <LayersControl position="bottomright">
-          <LayersControl.BaseLayer checked name="OpenStreetMap.Mapnik">
-            <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-          </LayersControl.BaseLayer>
-          <LayersControl.BaseLayer name="Test Layer">
-            <TileLayer url="https://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png" />
-            <LayersControl.Overlay name="Marker with popup">
-              <Marker position={position} icon={markerIcon}>
-                <Popup>
-                  A pretty CSS3 popup. <br /> Easily customizable.
-                </Popup>
-              </Marker>
-            </LayersControl.Overlay>
-          </LayersControl.BaseLayer>
-          <LayersControl.Overlay name="Get My Location"></LayersControl.Overlay>
-        </LayersControl>
+
         {/* <SetViewOnClick animateRef={animateRef} /> */}
 
         <button
-          className="locate-me-button"
+          className="geofence-button"
           style={{ zIndex: "1000", position: "relative" }}
           onClick={geoFencing}
         >
           {/* <LocationMarker /> */}
         </button>
-        {/* <LocationMarker /> */}
+
+        <button
+          className="geofence-button"
+          style={{ zIndex: "1000", position: "relative" }}
+          onClick={LiveLocation}
+        >
+          {/* <LocationMarker /> */}
+        </button>
+        <LocationMarker />
         <FullscreenControl position="topleft" />
         <GeoSearchControlElement
           provider={prov}
