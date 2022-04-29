@@ -1,0 +1,6 @@
+{
+	"mongoURI": "mongodb+srv://anurag:anurag1@testcluster1.tuwaw.mongodb.net/Testcluster1?retryWrites=true",
+	"jwtSecret": "mysecrettoken",
+	"githubClientId": "",
+	"githubSecret": ""
+}
