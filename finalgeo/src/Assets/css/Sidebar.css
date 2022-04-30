@@ -1,0 +1,9 @@
+/* .sidebar {
+  background-color: red;
+} */
+
+.sidebar-contents {
+  width: 30vw;
+  background-color: #212121;
+  height: 100%;
+}

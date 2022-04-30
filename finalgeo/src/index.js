@@ -4,6 +4,9 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { AuthProvider } from "./Contexts/AuthContext";
+import { AlertProvider } from "./Contexts/AlertContext";
+import { GeoProvider } from "./Contexts/GeoContext";
 
 // ReactDOM.render(
 //   <React.StrictMode>
@@ -20,6 +23,14 @@ import reportWebVitals from "./reportWebVitals";
 const container = document.getElementById("root");
 const root = createRoot(container);
 
-root.render(<App />);
+root.render(
+	<AlertProvider>
+		<GeoProvider>
+			<AuthProvider>
+				<App />
+			</AuthProvider>
+		</GeoProvider>
+	</AlertProvider>
+);
 
 reportWebVitals();
