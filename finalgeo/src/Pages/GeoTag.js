@@ -503,6 +503,7 @@ const ShortestRoutes = () => {
 														<h4>{e.description}</h4>
 														<h5>{e.name}</h5>
 														<h5>{e.email}</h5>
+														<h5>{e.username}</h5>
 													</div>
 												</li>
 											</div>
@@ -521,7 +522,7 @@ const ShortestRoutes = () => {
 					<div className="right-sidebar">
 						<h1 style={{ color: "white" }}>Info</h1>
 						<div className="tags-info">
-							{infoData !== null ? infoData.toString() : null}
+							{infoData !== null ? JSON.stringify(infoData) : null}
 						</div>
 					</div>
 				</Sidebar>

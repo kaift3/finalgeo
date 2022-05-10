@@ -35,6 +35,7 @@ router.post(
 				description: req.body.description,
 				coords: req.body.coords,
 				user: req.user.id,
+				username: user.name,
 			});
 
 			const polygon = await newPolygon.save();

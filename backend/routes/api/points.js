@@ -34,6 +34,7 @@ router.post(
 				description: req.body.description,
 				latlng: req.body.latlng,
 				user: req.user.id,
+				username: user.name,
 			});
 
 			const point = await newPoint.save();

@@ -4,11 +4,13 @@ const PointSchema = new mongoose.Schema({
 	email: {
 		type: String,
 		required: true,
-		unique: false,
 	},
 	name: {
 		type: String,
 		required: true,
+	},
+	username: {
+		type: String,
 	},
 	description: {
 		type: String,

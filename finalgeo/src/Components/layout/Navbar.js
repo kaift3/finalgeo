@@ -1,9 +1,10 @@
 import React, { useContext } from "react";
-import { NavLink as Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { AuthContext } from "../../Contexts/AuthContext";
 
 const Navbar = () => {
 	const { user, logout } = useContext(AuthContext);
+	const navigate = useNavigate();
 
 	return (
 		<>
@@ -81,7 +82,14 @@ const Navbar = () => {
 											</span>
 										</li> */}
 										<li class="nav-item">
-											<a class="nav-link" href="#" onClick={logout}>
+											<a
+												class="nav-link"
+												href="#"
+												onClick={() => {
+													logout();
+													navigate("/login");
+												}}
+											>
 												Logout
 											</a>
 										</li>
