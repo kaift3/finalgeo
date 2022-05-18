@@ -21,6 +21,7 @@
     "leaflet-draw": "^1.0.4",
     "leaflet-easybutton": "^2.4.0",
     "leaflet-geosearch": "^3.6.0",
+    "leaflet-routing-machine": "^3.2.12",
     "material-ui": "^0.20.2",
     "mdb-ui-kit": "^3.11.0",
     "react": "^18.0.0",
