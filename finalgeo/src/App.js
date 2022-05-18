@@ -2,8 +2,9 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import React, { useEffect, useContext } from "react";
 import Home from "./Pages/Home";
 import Login from "./Components/auth/Login";
+//import Login from "./Pages/Login";
 import Register from "./Components/auth/Register";
-import SignUp from "./Pages/SignUp";
+//import Register from "./Pages/Register";
 import About from "./Pages/About";
 import GeoFence from "./Pages/GeoFence";
 import GeoTag from "./Pages/GeoTag";
@@ -20,43 +21,44 @@ import { AuthContext } from "./Contexts/AuthContext";
 import AlertUI from "./Components/layout/AlertUI";
 
 function App() {
-	const { loadUser, logout } = useContext(AuthContext);
+  const { loadUser, logout } = useContext(AuthContext);
 
-	if (localStorage.getItem("token") !== "") {
-		setAuthToken(JSON.parse(localStorage.getItem("token")));
-	} else {
-		logout();
-	}
+  if (localStorage.getItem("token") !== "") {
+    setAuthToken(JSON.parse(localStorage.getItem("token")));
+  } else {
+    logout();
+  }
 
-	useEffect(() => {
-		if (localStorage.getItem("token")) {
-			loadUser();
-		}
-	}, []);
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      loadUser();
+    }
+  }, []);
 
-	return (
-		<div className="App">
-			<Router>
-				{/* <Navbar />
+  return (
+    <div className="App">
+      <Router>
+        {/* <Navbar />
       <Login />
       <SignUp /> */}
-				<Navbar />
-				<AlertUI />
-				{/* <Nav /> */}
-				{/* <Sidebar /> */}
-				<Routes>
-					<Route path="/" element={<Home />} />
-					<Route path="/about" element={<About />} />
-					<Route path="/login" element={<Login />} />
-					<Route path="/register" element={<Register />} />
-					<Route path="/geofence" element={<GeoFence />} />
-					<Route path="/geotag" element={<GeoTag />} />
-					<Route path="/routes" element={<ShortestRoutes />} />
-					<Route path="*" element={<PageNotFound />} />
-				</Routes>
-			</Router>
-		</div>
-	);
+        <Navbar />
+        <AlertUI />
+        {/* <Nav /> */}
+        {/* <Sidebar /> */}
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/signup" element={<Register />} />
+          <Route path="/geofence" element={<GeoFence />} />
+          <Route path="/geotag" element={<GeoTag />} />
+          <Route path="/routes" element={<ShortestRoutes />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </Router>
+    </div>
+  );
 }
 
 export default App;
